@@ -54,7 +54,7 @@
 
 <aside class="sidebar">
     <div class="sidebar-header">
-        <a href="#" class="logo">
+        <a href="/dashboard" class="logo">
             <i class="fas fa-chart-line"></i>
             <span class="logo-text">Dashboard</span>
         </a>
@@ -62,8 +62,10 @@
     <nav class="sidebar-menu">
         <div class="menu-title">Menu Utama</div>
         <div class="menu-item active">
-            <i class="fas fa-home"></i>
-            <span class="menu-text">Beranda</span>
+            <a href="/dashboard" style="text-decoration: none; color: inherit;">
+                <i class="fas fa-home"></i>
+                <span class="menu-text">Beranda</span>
+            </a>
         </div>
 
         <!-- Dropdown Menu Analitik -->

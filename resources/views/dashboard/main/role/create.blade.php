@@ -44,6 +44,7 @@
                     
                     $actions = ['read' => 'Lihat', 'create' => 'Tambah', 'edit' => 'Edit', 'delete' => 'Hapus'];
                 @endphp
+                
                 <div class="permission-card">
                     <div class="table-responsive">
                         <table class="roles-table permission-table">

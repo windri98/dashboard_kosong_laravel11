@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
         // Insert default role
         DB::table('roles')->insert([
             'role' => 'SuperAdmin',
-            'akses' => 'Administrator role with full access',
+            'akses' => 'all',
         ]);
 
         // $this->call(PermissionSeeder::class);

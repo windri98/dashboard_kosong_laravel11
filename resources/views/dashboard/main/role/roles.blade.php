@@ -48,9 +48,8 @@
                                             'manage-link-website.linkwebsite' => 'Link Website'
                                         ];
                                     @endphp
-                                    
                                     @if(empty($permissions))
-                                        <span class="badge bg-secondary">Tanpa akses</span>
+                                        <span class="badge bg-secondary">All Akses</span>
                                     @else
                                         @foreach($permissions as $module => $actions)
                                             <div class="mb-1">

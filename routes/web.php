@@ -12,18 +12,11 @@ use App\Http\Controllers\auth\LoginRegisterController;
 // });
 
 
-// Register
-// Route::get('/register', [LoginRegisterController::class, 'register'])->name('register');
-
 Route::get('/login', [LoginRegisterController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginRegisterController::class, 'login'])->name('login.post');
 Route::post('/logout', [LoginRegisterController::class, 'logout'])->name('logout');
 
-// Route::get('/register', [LoginRegisterController::class, 'showRegisterForm'])->name('register');
-// Route::post('/register', [LoginRegisterController::class, 'register'])->name('register.post');
-
-// Route::middleware(['auth'])->group(function () {
-// });
+Route::middleware(['auth'])->group(function () {
 
 // Dashboard
 Route::get('/dashboard', [DashboardController::class,'dashboard']);
@@ -52,4 +45,5 @@ Route::put('/update/password', [UserController::class, 'updatepassword'])->name(
 
 // absensi
 
+});
 

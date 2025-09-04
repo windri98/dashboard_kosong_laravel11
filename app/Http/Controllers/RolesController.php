@@ -13,7 +13,6 @@ class RolesController extends Controller
     public function showrole()
     {
         $roles = Roles::with('users')->get();
-
         return view('dashboard.main.role.roles', compact('roles'));
     }
 
@@ -21,14 +20,13 @@ class RolesController extends Controller
      * Store a newly created role in storage.
      */
 
-     public function addrole(){
+    public function addrole(){
 
-        return view('dashboard.main.role.create');
-     }
+    return view('dashboard.main.role.create');
+    }
 
     public function createrole(Request $request)
     {
-        // dd($request);
         $request->validate([
             'role' => 'required|unique:roles',
             'permissions' => 'array',
@@ -58,13 +56,17 @@ class RolesController extends Controller
     /**
      * Show the form for editing the specified role.
      */
-    public function editrole($id)
+        public function editrole($id)
     {
         $role = Roles::findOrFail($id);
 
+        // Cek jika role adalah 'SuperAdmin', redirect dengan pesan error
+        if (strtolower($role->role) === 'superadmin') {
+            return redirect()->route('show.role')->with('error', 'Role Super Admin tidak dapat diedit!');
+        }
+
         $role->akses = json_decode($role->akses, true); // Konversi JSON ke array
         
-        // Daftar modul permission
         $permissionModules = [
             'manage-roles.role' => 'Manajemen Role & User',
             'change-password' => 'Ubah Password',
@@ -83,24 +85,26 @@ class RolesController extends Controller
         ]);
     }
 
+
     /**
      * Update the specified role in storage.
      */
-    public function updaterole(Request $request, $id)
+        public function updaterole(Request $request, $id)
     {
+        $role = Roles::findOrFail($id);
+
+        // Cegah update SuperAdmin
+        if (strtolower($role->role) === 'superadmin') {
+            return redirect()->route('show.role')->with('error', 'Role Super Admin tidak dapat diedit!');
+        }
+
         $request->validate([
             'role' => 'required|unique:roles,role,' . $id,
         ]);
         
-        $role = Roles::findOrFail($id);
-        
-        // Inisialisasi array permission kosong
         $permissions = [];
-        
-        // Hanya proses jika ada permissions yang dikirim dari form
         if ($request->has('permissions')) {
             foreach ($request->permissions as $module => $actions) {
-                // Simpan actions array untuk setiap modul
                 if (!empty($actions)) {
                     $permissions[$module] = $actions;
                 }
@@ -115,17 +119,24 @@ class RolesController extends Controller
         return redirect()->route('show.role')->with('success', 'Role berhasil diperbarui!');
     }
 
+
     /**
      * Remove the specified role from storage.
      */
-    public function deleterole($id)
+        public function deleterole($id)
     {
         $role = Roles::find($id);
         if (!$role) {
             return redirect()->route('show.role')->with('error', 'Role tidak ditemukan!');
         }
 
+        // Cegah hapus SuperAdmin
+        if (strtolower($role->role) === 'superadmin') {
+            return redirect()->route('show.role')->with('error', 'Role Super Admin tidak dapat dihapus!');
+        }
+
         $role->delete();
         return redirect()->route('show.role')->with('success', 'Role berhasil dihapus!');
     }
+
 }
